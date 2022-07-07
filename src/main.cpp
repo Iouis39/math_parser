@@ -1,5 +1,9 @@
 #include <iostream>
+#include "characterType.cpp"
+#include "characterType.hpp"
 
 int main(void) {
-    std::cout << "Hello World" << '\n';
+    char c = 1;
+
+    std::cout << isAlphabetic(c) << '\n';
 }
