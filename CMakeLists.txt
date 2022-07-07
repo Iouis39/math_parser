@@ -49,3 +49,6 @@ set_target_properties(${project_name}-lib ${project_name}-bin ${project_name}-te
         CXX_EXTENSIONS OFF
         CXX_STANDARD_REQUIRED ON
         )
+
+enable_testing()
+add_test(project-tests ${project_name}-test)
