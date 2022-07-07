@@ -1,0 +1,3 @@
+/Users/louisgrunberg/Desktop/math-parser/build/CMakeFiles/math_parser.dir
+/Users/louisgrunberg/Desktop/math-parser/build/CMakeFiles/edit_cache.dir
+/Users/louisgrunberg/Desktop/math-parser/build/CMakeFiles/rebuild_cache.dir
