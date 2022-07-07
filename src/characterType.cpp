@@ -18,5 +18,5 @@ bool isAlgebraicSign(char c) {
 }
 
 bool isBracket(char c) {
-    return c == '(' || ')';
+    return c == '(' || c == ')';
 }
