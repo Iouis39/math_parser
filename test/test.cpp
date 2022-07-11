@@ -22,8 +22,8 @@ TEST_CASE("testing LexicalAnalyzer - simple addition") {
     LexicalAnalyzer lexicalAnalyzer;
     auto tokensToTest = lexicalAnalyzer.parseToTokens("2+3");
     CHECK(tokensToTest->at(0) == "2");
-    CHECK(tokensToTest->at(0) == "+");
-    CHECK(tokensToTest->at(0) == "3");
+    CHECK(tokensToTest->at(1) == "+");
+    CHECK(tokensToTest->at(2) == "3");
     CHECK(tokensToTest->size() == 3);
 }
 
@@ -31,7 +31,18 @@ TEST_CASE("testing LexicalAnalyzer - addition with large numbers") {
     LexicalAnalyzer lexicalAnalyzer;
     auto tokensToTest = lexicalAnalyzer.parseToTokens("258+37375");
     CHECK(tokensToTest->at(0) == "258");
-    CHECK(tokensToTest->at(0) == "+");
-    CHECK(tokensToTest->at(0) == "37375");
+    CHECK(tokensToTest->at(1) == "+");
+    CHECK(tokensToTest->at(2) == "37375");
     CHECK(tokensToTest->size() == 3);
+}
+
+TEST_CASE("testing LexicalAnalyzer - addition with multiple numbers") {
+    LexicalAnalyzer lexicalAnalyzer;
+    auto tokensToTest = lexicalAnalyzer.parseToTokens("258+37375+433");
+    CHECK(tokensToTest->at(0) == "258");
+    CHECK(tokensToTest->at(1) == "+");
+    CHECK(tokensToTest->at(2) == "37375");
+    CHECK(tokensToTest->at(3) == "+");
+    CHECK(tokensToTest->at(4) == "433");
+    CHECK(tokensToTest->size() == 5);
 }
