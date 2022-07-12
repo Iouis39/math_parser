@@ -12,3 +12,5 @@ bool isOperator(char c);
 bool isAlgebraicSign(char c);
 
 bool isBracket(char c);
+
+bool isPeriod(char c);
