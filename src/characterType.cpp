@@ -6,7 +6,7 @@ bool isAlphabetic(char c) {
 }
 
 bool isNumber(char c) {
-    return std::isalnum(c);
+    return std::isalnum(c) || c == '.';
 }
 
 bool isOperator(char c) {
@@ -20,3 +20,4 @@ bool isAlgebraicSign(char c) {
 bool isBracket(char c) {
     return c == '(' || c == ')';
 }
+
