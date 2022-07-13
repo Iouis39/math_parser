@@ -18,6 +18,13 @@ TEST_CASE("testing LexicalAnalyzer - simple number") {
     CHECK(tokensToTest->size() == 1);
 }
 
+TEST_CASE("testing Lexical Analyzer - floating point numbers") {
+    LexicalAnalyzer lexicalAnalyzer;
+    auto tokensToTest = lexicalAnalyzer.parseToTokens("2.1");
+    CHECK(tokensToTest->at(0) == "2.1");
+    CHECK(tokensToTest->size() == 1);
+}
+
 TEST_CASE("testing LexicalAnalyzer - simple addition") {
     LexicalAnalyzer lexicalAnalyzer;
     auto tokensToTest = lexicalAnalyzer.parseToTokens("2+3");
