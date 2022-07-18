@@ -18,6 +18,7 @@ endif()
 add_library(${project_name}-lib
         src/characterType.cpp
         src/LexicalAnalyzer.cpp
+        src/token.cpp
         )
 
 target_link_libraries(${project_name}-lib
