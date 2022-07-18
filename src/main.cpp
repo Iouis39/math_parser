@@ -3,6 +3,7 @@
 
 #include "characterType.hpp"
 #include "LexicalAnalyzer.hpp"
+#include "token.hpp"
 
 int main(int argc, char *argv[]) {
 
