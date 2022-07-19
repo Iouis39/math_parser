@@ -4,6 +4,7 @@ set(project_name math_parser)
 project(${project_name})
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 find_package(doctest REQUIRED)
 if(doctest_FOUND)
@@ -17,6 +18,7 @@ endif()
 add_library(${project_name}-lib
         src/characterType.cpp
         src/LexicalAnalyzer.cpp
+        src/token.cpp
         )
 
 target_link_libraries(${project_name}-lib
