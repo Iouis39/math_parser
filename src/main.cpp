@@ -15,16 +15,19 @@ int main(int argc, char *argv[]) {
 
     std::string input(argv[1]);
 
-    std::cout << "Input: " << input << std::endl;
+    // std::cout << "Input: " << input << std::endl;
 
     LexicalAnalyzer lexicalAnalyzer;
-    std::unique_ptr<std::vector<std::string>> tokens = lexicalAnalyzer.parseToTokens(input);
+    std::unique_ptr<std::vector<std::shared_ptr<Token>>> tokens = lexicalAnalyzer.parseToTokens(input);
 
-    std::cout << "Tokens: ";
+    std::cout << "[";
     for (auto i = tokens->begin(); i != tokens->end(); ++i) {
-        std::cout << *i << ',';
+        if(i != tokens->begin()) {
+            std::cout << ',';
+        }
+        std::cout << (*i)->toString();
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 
     return EXIT_SUCCESS;
 }

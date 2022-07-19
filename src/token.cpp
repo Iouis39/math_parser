@@ -8,5 +8,16 @@ const std::string& Token::getData() {
 }
 
 std::string Token::toString() const {
-    return "{type: " + std::to_string(tokenType) + ", data: " + data + "}";
+    std::string tokenTypeLabel;
+ 
+    switch(tokenType) {
+        case NUMBER : 
+        tokenTypeLabel = "NUMBER";
+        break;
+        
+        case OPERATOR :
+        tokenTypeLabel = "OPERATOR";
+        break;
+    }
+    return "{\"type\": \"" + tokenTypeLabel + "\", \"data\": \"" + data + "\"}";
 }

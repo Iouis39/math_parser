@@ -40,7 +40,7 @@ class State : public std::enable_shared_from_this<State> {
 
         virtual std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter) = 0;
     
-        virtual std::string getToken() = 0;
+        virtual std::shared_ptr<Token> getToken() = 0;
         
         std::shared_ptr<Transition> getTransition();
 };
@@ -52,11 +52,11 @@ class DigitReadingState : public State {
     public:
         DigitReadingState(char initialDigit);
         
-        void validate(char readCharacter, char nextCharacter);
+        void validate(char readCharacter, char nextCharacter) override;
 
-        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter);
+        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter) override;
         
-        std::string getToken();
+        std::shared_ptr<Token> getToken() override;
 
 };
 
@@ -65,11 +65,11 @@ class DigitCompleteState : public State {
         std::string number;
     public:
         DigitCompleteState(std::string number);
-        void validate(char readCharacter, char nextCharacter);
+        void validate(char readCharacter, char nextCharacter) override;
 
-        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter);
+        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter) override;
         
-        std::string getToken();
+        std::shared_ptr<Token> getToken() override;
 
 };
 
@@ -79,21 +79,21 @@ class OperatorState : public State {
     public:
         OperatorState(char symbol);
         
-        void validate(char readCharacter, char nextCharacter);
+        void validate(char readCharacter, char nextCharacter) override;
 
-        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter);
+        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter) override;
         
-        std::string getToken();
+        std::shared_ptr<Token> getToken() override;
 
 };
 
 class EmptyState : public State {
     public:
-        void validate(char readCharacter, char nextCharacter);
+        void validate(char readCharacter, char nextCharacter) override;
 
-        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter);
+        std::shared_ptr<Transition> transition(char readCharacter, char nextCharacter) override;
         
-        std::string getToken();
+        std::shared_ptr<Token> getToken() override;
 };
 
 
@@ -103,13 +103,13 @@ class FSM {
         std::shared_ptr<State> state;
     public:
         FSM();
-        std::string transition(char readCharacter, char nextCharacter);
+        std::shared_ptr<Token> transition(char readCharacter, char nextCharacter);
 };
 
 class LexicalAnalyzer {
 
 public:
-    std::unique_ptr<std::vector<std::string>> parseToTokens(const std::string &input);
+    std::unique_ptr<std::vector<std::shared_ptr<Token>>> parseToTokens(const std::string &input);
 
 };
 

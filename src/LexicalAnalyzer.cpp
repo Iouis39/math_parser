@@ -7,20 +7,23 @@
 InvalidFormulaException::InvalidFormulaException(const std::string &message) : message_(message) {
 }
 
+/* ***************************************************************** */
 
 Transition::Transition(std::shared_ptr<State> targetState, std::shared_ptr<Token> token) : token(token), targetState(targetState) {} 
 std::shared_ptr<State> Transition::getTargetState() {
     return targetState;
 }
 std::shared_ptr<Token> Transition::getToken() {
-    return std::make_shared<Token>();
+    return this->token;
 }
 
-
+/* ***************************************************************** */
 
 std::shared_ptr<Transition> State::getTransition() {
     return std::make_shared<Transition>(shared_from_this(), getToken());
 }
+
+/* ***************************************************************** */
 
 DigitReadingState::DigitReadingState(char initialDigit) {
     numberBuffer << initialDigit;
@@ -42,10 +45,11 @@ std::shared_ptr<Transition> DigitReadingState::transition(char readCharacter, ch
     return getTransition();
 }
 
-std::string DigitReadingState::getToken() {
-    return std::string();
+std::shared_ptr<Token> DigitReadingState::getToken() {
+    return nullptr;
 }
 
+/* ***************************************************************** */
 
 DigitCompleteState::DigitCompleteState(std::string number) : number(number) {}
 void DigitCompleteState::validate(char readCharacter, char nextCharacter) {
@@ -58,10 +62,11 @@ std::shared_ptr<Transition> DigitCompleteState::transition(char readCharacter, c
     return std::make_shared<OperatorState>(readCharacter)->getTransition();
 }
 
-std::string DigitCompleteState::getToken() {
-    return number;
+std::shared_ptr<Token> DigitCompleteState::getToken() {
+    return std::make_shared<Token>(number, TokenType::NUMBER);
 }
 
+/* ***************************************************************** */
 
 OperatorState::OperatorState(char symbol) : symbol(symbol) {}
 
@@ -79,9 +84,11 @@ std::shared_ptr<Transition> OperatorState::transition(char readCharacter, char n
     }
 }
 
-std::string OperatorState::getToken() {
-    return std::string(1, symbol);
+std::shared_ptr<Token> OperatorState::getToken() {
+    return std::make_shared<Token>(std::string(1, symbol), TokenType::OPERATOR);
 }
+
+/* ***************************************************************** */
 
 
 void EmptyState::validate(char readCharacter, char nextCharacter) {
@@ -99,47 +106,42 @@ std::shared_ptr<Transition> EmptyState::transition(char readCharacter, char next
     }
 }
 
-std::string EmptyState::getToken() {
-    return std::string();
+std::shared_ptr<Token> EmptyState::getToken() {
+    return nullptr;
 }
 
+/* ***************************************************************** */
 
 FSM::FSM() : state(std::make_shared<EmptyState>()) {
     
 }
 
-std::string FSM::transition(char readCharacter, char nextCharacter) {
+std::shared_ptr<Token> FSM::transition(char readCharacter, char nextCharacter) {
     state->validate(readCharacter, nextCharacter);
     auto transition = state->transition(readCharacter, nextCharacter);
     state = transition->getTargetState();
     return transition->getToken();
 }
 
-std::unique_ptr<std::vector<std::string>> LexicalAnalyzer::parseToTokens(const std::string &input) {
-    std::cout << "LexicalAnalyzer::parseToTokens IN" << "\n";
-    auto resultVector = std::make_unique<std::vector<std::string>>();
+/* ***************************************************************** */
+
+std::unique_ptr<std::vector<std::shared_ptr<Token>>> LexicalAnalyzer::parseToTokens(const std::string &input) {
+    
+    auto resultVector = std::make_unique<std::vector<std::shared_ptr<Token>>>();
     
    FSM fsm;
    
-    std::cout << "input.length() = " << input.length() << "\n";
     for(auto i = 0; i < input.length(); i++) {
         
         char readCharacter = input[i];
         char nextCharacter = input[i+1];
-        
-        std::cout << "INPUT: " << readCharacter << "\n";
-        std::cout << "INPUT-next: " << nextCharacter << "\n";
     
-        
         auto token = fsm.transition(readCharacter, nextCharacter);
-        std::cout << "TOKEN: " << token << "\n";
-        
-        if(!token.empty()) {
+        if( token != nullptr ) {
             resultVector->push_back(token);
         }   
         
     }
-    
-    std::cout << "LexicalAnalyzer::parseToTokens OUT" << "\n";
+
     return resultVector;
 }
