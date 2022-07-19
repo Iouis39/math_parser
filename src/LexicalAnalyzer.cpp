@@ -8,12 +8,12 @@ InvalidFormulaException::InvalidFormulaException(const std::string &message) : m
 }
 
 
-Transition::Transition(std::shared_ptr<State> targetState, std::string token) : token(token), targetState(targetState) {} 
+Transition::Transition(std::shared_ptr<State> targetState, std::shared_ptr<Token> token) : token(token), targetState(targetState) {} 
 std::shared_ptr<State> Transition::getTargetState() {
     return targetState;
 }
-std::string Transition::getToken() {
-    return token;
+std::shared_ptr<Token> Transition::getToken() {
+    return std::make_shared<Token>();
 }
 
 

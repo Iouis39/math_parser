@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "characterType.hpp"
+#include "token.hpp"
 
 class InvalidFormulaException : public std::exception {
 private:
@@ -24,11 +25,11 @@ class State;
 class Transition {
     private:
         std::shared_ptr<State> targetState;
-        std::string token;
+        std::shared_ptr<Token> token;
     public:
-        Transition(std::shared_ptr<State> targetState, std::string token);
+        Transition(std::shared_ptr<State> targetState, std::shared_ptr<Token> token);
         std::shared_ptr<State> getTargetState();
-        std::string getToken();
+        std::shared_ptr<Token> getToken();
 };
 
 
